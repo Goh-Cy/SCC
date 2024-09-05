@@ -11,6 +11,10 @@ pipeline {
         
         stage('Build') {
             steps {
+                        bat 'npm init -y '
+                        bat 'npm install webpack webpack-cli --save-dev '
+                        bat 'npm install style-loader --save-dev'
+                        bat 'npm install css-loader --save-dev '
                         bat 'npx webpack --config webpack.config.js'
                         bat 'npm run build'
                 
