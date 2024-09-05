@@ -11,7 +11,7 @@ pipeline {
         
         stage('Build') {
             steps {
-
+                        bat 'npx webpack'
                         bat 'npm run build'
                 
             }
