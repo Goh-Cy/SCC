@@ -11,7 +11,7 @@ pipeline {
         
         stage('Build') {
             steps {
-                        bat 'npx webpack'
+                        bat 'npx webpack --config webpack.config.js'
                         bat 'npm run build'
                 
             }
