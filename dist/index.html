@@ -129,7 +129,7 @@
       <form id="addForm" class="row w-100 d-flex flex-wrap justify-content-between align-items-center">
 
         <!-- task field -->
-        <input class="form-control inputcss" type="text" onkeyup="enableSubmit(this, 'submitBtn')" id="item"
+        <input class="form-control inputcss" type="text" onkeyup="window.enableSubmitFunction(this, 'submitBtn')" id="item"
                placeholder="Enter Task Name..." />
 
         <!-- description fiels -->
@@ -219,8 +219,7 @@
 </div>
 </div>
 <!-- loading all external/internal scripts -->
-<script src="../src/scroll.js"></script>
-<script src="../src/index.js"></script>
+<script src="./bundle.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js">
 </script>
@@ -245,7 +244,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     var taskList = document.getElementById('taskList');
     var taskActions = document.getElementById('taskActions');
-    init();
+    window.initFunction()
 
     // Function to check and toggle the display of taskActions
     function checkTasksAndToggle() {
