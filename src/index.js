@@ -1,4 +1,12 @@
 // Creating instances of document objects
+import('../style.css');
+
+// module.exports = {
+//   run : function () {
+//     console.log("run from library");
+//   }
+// };
+
 const taskList = document.getElementById("taskList");
 const dueDateInput = document.getElementById("dueDate");
 const priorityInput = document.getElementById("priority");
@@ -43,7 +51,7 @@ flatpickr(dueDateInput, {
 });
 
 //settibng up default theme
-function init() {
+window.initFunction = function () {
   const searchBar = document.getElementById("searchBar");
   searchBar.addEventListener("input", handleSearch);
   loadTasksFromLocalStorage();
@@ -711,7 +719,7 @@ function displayTask(task) {
 }
 
 // Function to enable submit button
-function enableSubmit(ref, btnID) {
+window.enableSubmitFunction = function (ref, btnID) {
   document.getElementById(btnID).disabled = false;
 }
 
