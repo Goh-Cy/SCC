@@ -39,7 +39,6 @@ pipeline {
     }
 
     post {
-       
         success {
             echo 'Build succeeded!!'
             // You could add notification steps here, e.g., send an email
@@ -47,6 +46,9 @@ pipeline {
         failure {
             echo 'Build failed!!!'
             // You could add notification steps here, e.g., send an email or Slack message
+        }
+        always{
+            sh 'docker logout'
         }
     }
 }
