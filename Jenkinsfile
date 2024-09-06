@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    environment{
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -29,11 +31,9 @@ pipeline {
         }
         stage('Deploy') {
             steps {  
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {        
-                        bat 'docker build -t todolist-app .'
-                        bat 'docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}'
-                        bat 'docker push cyuangoh/todolist:latest'
-                 }           
+                bat 'docker build -t todolist-app .'
+                bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                bat 'docker push cyuangoh/todolist:latest'        
             }
         }
     }
