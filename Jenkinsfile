@@ -50,7 +50,7 @@ pipeline {
             // You could add notification steps here, e.g., send an email or Slack message
         }
         always{
-            sh 'docker logout'
+            bat 'docker logout'
         }
     }
 }
