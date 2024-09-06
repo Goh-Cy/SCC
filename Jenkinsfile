@@ -20,18 +20,18 @@ pipeline {
                 
             }
         }
-        // stage('Test') {
-        //     steps {
+        stage('Test') {
+            steps {
                 
-        //                 bat 'start gradlew test'
+                        bat 'npm test'
                   
-        //     }
-        // }
-        // stage('Deploy') {
-        //     steps {                
-        //                 powershell 'java -jar build/libs/hello-world-java-V1.jar'
-        //          }           
-        // }
+            }
+        }
+        stage('Deploy') {
+            steps {                
+                        bat 'docker push cyuangoh/todolist:latest'
+                 }           
+        }
     
 }
 
