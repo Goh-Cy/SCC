@@ -35,9 +35,8 @@ pipeline {
                         bat 'docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}'
                         bat 'docker push cyuangoh/todolist:latest'
                  }           
+            }
         }
-    
-}
 
 post {
        
@@ -51,5 +50,6 @@ post {
         }
     }
     }
+}
 
 
