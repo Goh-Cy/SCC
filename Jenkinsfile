@@ -28,7 +28,6 @@ pipeline {
             }
         }
         stage('Deploy') {
-            agent any
             steps {  
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {        
                         bat 'docker build -t todolist-app .'
@@ -37,8 +36,9 @@ pipeline {
                  }           
             }
         }
+    }
 
-post {
+    post {
        
         success {
             echo 'Build succeeded!!'
@@ -48,7 +48,6 @@ post {
             echo 'Build failed!!!'
             // You could add notification steps here, e.g., send an email or Slack message
         }
-    }
     }
 }
 
