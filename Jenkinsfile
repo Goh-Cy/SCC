@@ -31,9 +31,9 @@ pipeline {
         }
         stage('Deploy') {
             steps {  
-                sh 'docker build -t todolist-app .'
+                bat 'docker build -t todolist-app .'
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh 'docker push cyuangoh/todolist:latest'        
+                bat 'docker push cyuangoh/todolist:latest'        
             }
         }
     }
