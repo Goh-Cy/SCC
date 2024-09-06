@@ -1,9 +1,7 @@
 pipeline {
     agent any
     environment{
-        registry = 'cyuangoh/todolist'
-        registryCredential = 'dockerhub'
-        dockerImage = ''
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
     stages {
         stage('Checkout') {
@@ -31,25 +29,12 @@ pipeline {
                   
             }
         }
-        stage('Build Docker Image') {
-            steps {  
-                script{
-                    dockerImage = docker.build registry + ':$BUILD_NUMBER'
-                }     
-            }
-        }
-        stage('Deploy Image'){
-            steps{
-                script{
-                    docker.withRegistry('', registryCredential) {
-                        dockerImage.push()
-                    }
+        stage('Deploy') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                    sh 'docker push shanem/spring-petclinic:latest'
                 }
-            }
-        }
-        stage('Clean up'){
-            steps{
-                bat "docker rmi $registry:$BUILD_NUMBER"
             }
         }
     }
