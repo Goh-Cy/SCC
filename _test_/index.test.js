@@ -1,4 +1,3 @@
-
 // Setup DOM environment
 beforeEach(() => {
   document.body.innerHTML = `

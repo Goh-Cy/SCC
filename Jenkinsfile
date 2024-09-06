@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    environment{
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -20,23 +22,23 @@ pipeline {
                 
             }
         }
-        // stage('Test') {
-        //     steps {
+        stage('Test') {
+            steps {
                 
-        //                 bat 'start gradlew test'
+                        bat 'npm test'
                   
-        //     }
-        // }
-        // stage('Deploy') {
-        //     steps {                
-        //                 powershell 'java -jar build/libs/hello-world-java-V1.jar'
-        //          }           
-        // }
-    
-}
+            }
+        }
+        stage('Deploy') {
+            steps {  
+                bat 'docker build -t todolist-app .'
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                bat 'docker push cyuangoh/todolist:latest'        
+            }
+        }
+    }
 
-post {
-       
+    post {
         success {
             echo 'Build succeeded!!'
             // You could add notification steps here, e.g., send an email
@@ -45,7 +47,10 @@ post {
             echo 'Build failed!!!'
             // You could add notification steps here, e.g., send an email or Slack message
         }
+        always{
+            sh 'docker logout'
+        }
     }
-    }
+}
 
 
