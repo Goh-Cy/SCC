@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {                
-                        bat 'docker push cyuangoh/todolist:latest'
+                        bat 'docker build -t todolist-app .'
                  }           
         }
     
