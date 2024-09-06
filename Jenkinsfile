@@ -1,7 +1,9 @@
 pipeline {
     agent any
     environment{
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        registry = 'cyuangoh/todolist'
+        registryCredential = 'dockerhub'
+        dockerImage = ''
     }
     stages {
         stage('Checkout') {
@@ -29,11 +31,25 @@ pipeline {
                   
             }
         }
-        stage('Deploy') {
+        stage('Build Docker Image') {
             steps {  
-                bat 'docker build -t todolist-app .'
-                bat 'echo %DOCKERHUB_CREDENTIALS_PSW% | docker login -u %DOCKERHUB_CREDENTIALS_USR% --password-stdin'
-                bat 'docker push cyuangoh/todolist:latest'        
+                script{
+                    dockerImage = docker.build registry + ':$BUILD_NUMBER'
+                }     
+            }
+        }
+        stage('Deploy Image'){
+            steps{
+                script{
+                    docker.withRegistry('', registryCredential) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+        stage('Clean up'){
+            steps{
+                bat "docker rmi $registry:$BUILD_NUMBER"
             }
         }
     }
