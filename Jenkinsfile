@@ -28,12 +28,12 @@ pipeline {
             }
         }
         stage('Deploy') {
-            steps {                
+            agent any
+            steps {  
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {        
                         bat 'docker build -t todolist-app .'
-                        withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
-                            bat 'docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}'
-                            bat 'docker push cyuangoh/todolist:latest'
-                        }
+                        bat 'docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}'
+                        bat 'docker push cyuangoh/todolist:latest'
                  }           
         }
     
